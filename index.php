@@ -42,9 +42,14 @@ try {
     }
 
     $controller->$actionMethodName();
+
+    $view = new \Mvc\Library\View(__DIR__.DIRECTORY_SEPARATOR.'views', $controllerName, $controllerName);
+    $view->render();
+
 } catch (\Mvc\Library\NotFoundException $e) {
     http_response_code(404);
     echo 'Page not found: '.$controllerClassName.'::'.$actionMethodName;
+
 } catch (\Exception $e) {
     http_response_code(500);
     echo 'Exception: '.$e->getMessage().' '.$e->getTraceAsString();
