@@ -11,7 +11,7 @@ spl_autoload_register(function ($classname) {
         return;
     }
 
-    $filename = __DIR__.DIRECTORY_SEPARATOR.str_replace('\\', DIRECTORY_SEPARATOR, substr($classname, 4)).'.php';
+    $filename = __DIR__.'/'.str_replace('\\', DIRECTORY_SEPARATOR, substr($classname, 4)).'.php';
 
     if (file_exists($filename)) {
         include $filename;
