@@ -42,10 +42,9 @@ try {
     }
 
     $view = new \Mvc\Library\View(__DIR__.DIRECTORY_SEPARATOR.'views', $controllerName, $controllerName);
-
     $controller->setView($view);
-    $controller->$actionMethodName();
 
+    $controller->$actionMethodName();
     $view->render();
 
 } catch (\Mvc\Library\NotFoundException $e) {
