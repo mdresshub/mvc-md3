@@ -8,6 +8,7 @@
 
 namespace Mvc\Controller;
 
+use Mvc\Library\NotFoundException;
 use Mvc\Model\User;
 
 
@@ -43,5 +44,11 @@ class IndexController implements Controller
         }
 
         $this->view->setVars(['name' => $user->name]);
+    }
+
+    public function createUserAction()
+    {
+        $user = new User();
+        $user->name = 'new tester';
     }
 }

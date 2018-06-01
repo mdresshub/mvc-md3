@@ -17,4 +17,9 @@ class User extends ModelBase
     {
         return 'users';
     }
+
+    public function beforeCreate()
+    {
+        $this->created = date('Y-m-d H:i:s');
+    }
 }

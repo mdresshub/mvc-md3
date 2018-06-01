@@ -11,5 +11,5 @@ namespace Mvc\Controller;
 
 interface Controller
 {
-
+    public function setView(\MVC\Library\View $view);
 }

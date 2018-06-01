@@ -60,5 +60,43 @@ abstract class ModelBase
         return $stmt->fetchAll(\PDO::FETCH_CLASS, get_class($model));
     }
 
+    public function save()
+    {
+        $table = $this->getSource();
+        /** @var \PDO $pdo */
+        $pdo = $this->getPdo();
+
+        $fields = [];
+        foreach ($this as $name => $val) {
+            if ($val === null) {
+                $fields[] = "´$name´=null";
+            } elseif (is_int($val)) {
+                $fields[] = "´$name´=".$val;
+            } else {
+                $fields[] = "´$name´=".$pdo->quote($val);
+            }
+        }
+
+        if ($this->id === null) {
+            // new entry
+            if (method_exists($this, 'beforeCreate')) {
+                $this->beforeCreate();
+            }
+            if (!$pdo->exec('INSERT INTO ´'.$table.'´ SET '.implode(',', $fields))) {
+                throw new \RuntimeException('Could not create '.get_class($this).': '.$pdo->errorInfo()[2]);
+            }
+            // fill the id
+            $this->id = $pdo->lastInsertId();
+        } else {
+            // update entry
+            if (method_exists($this, 'beforeUpdate')) {
+                $this->beforeUpdate();
+            }
+            if ($pdo->exec('UPDATE ´'.$table.'´ SET '.implode(',', $fields).' WHERE ´id´ = '.((int)$this->id)) === FALSE) {
+                throw new \RuntimeException('Could not update '.get_class($this).': '.$pdo->errorInfo()[2]);
+            }
+        }
+    }
+
     abstract public function getSource();
 }
