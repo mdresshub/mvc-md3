@@ -13,6 +13,11 @@ class View
 {
     protected $path, $controller, $action, $vars = [];
 
+    /**
+     * @param string $path Basepath of the views
+     * @param string $controllerName Current Controller
+     * @param string $actionName Current Action
+     */
     public function __construct($path, $controllerName, $actionName)
     {
         $this->path = $path;
@@ -20,6 +25,11 @@ class View
         $this->action = $actionName;
     }
 
+    /**
+     * Set the view vars. The keys will be added to existing keys.
+     *
+     * @param array $vars
+     */
     public function setVars(array $vars)
     {
         foreach ($vars as $key => $val) {
@@ -27,6 +37,11 @@ class View
         }
     }
 
+    /**
+     * Render the view
+     *
+     * @throws NotFoundException
+     */
     public function render()
     {
         $filename = $this->path.DIRECTORY_SEPARATOR.$this->controller.DIRECTORY_SEPARATOR.$this->action.'.phtml';
@@ -35,6 +50,7 @@ class View
             throw new NotFoundException();
         }
 
+        // spare the view the bloat of using "$this->vars[]" for every variable
         foreach ($this->vars as $key => $val) {
             $$key = $val;
         }

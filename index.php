@@ -41,7 +41,7 @@ try {
         throw new \Mvc\Library\NotFoundException();
     }
 
-    $view = new \Mvc\Library\View(__DIR__.DIRECTORY_SEPARATOR.'views', $controllerName, $controllerName);
+    $view = new \Mvc\Library\View(__DIR__.DIRECTORY_SEPARATOR.'views', $controllerName, $actionName);
     $controller->setView($view);
 
     $controller->$actionMethodName();
